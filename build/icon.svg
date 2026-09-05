@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="plate" x1="0" y1="0" x2="0.65" y2="1">
+      <stop offset="0" stop-color="#242833" />
+      <stop offset="0.55" stop-color="#14161b" />
+      <stop offset="1" stop-color="#0a0b0e" />
+    </linearGradient>
+
+    <linearGradient id="play" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#fb7185" />
+      <stop offset="0.55" stop-color="#f0224f" />
+      <stop offset="1" stop-color="#be123c" />
+    </linearGradient>
+
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.55">
+      <stop offset="0" stop-color="#e11d48" stop-opacity="0.32" />
+      <stop offset="1" stop-color="#e11d48" stop-opacity="0" />
+    </radialGradient>
+
+    <filter id="drop" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="26" stdDeviation="26" flood-color="#000" flood-opacity="0.45" />
+    </filter>
+
+    <filter id="softShadow" x="-40%" y="-40%" width="180%" height="180%">
+      <feDropShadow dx="0" dy="16" stdDeviation="22" flood-color="#4c0519" flood-opacity="0.55" />
+    </filter>
+
+    <clipPath id="plateClip">
+      <rect x="100" y="96" width="824" height="824" rx="188" ry="188" />
+    </clipPath>
+  </defs>
+
+  <!-- Nền squircle theo tỉ lệ icon macOS -->
+  <g filter="url(#drop)">
+    <rect x="100" y="96" width="824" height="824" rx="188" ry="188" fill="url(#plate)" />
+  </g>
+
+  <g clip-path="url(#plateClip)">
+    <rect x="100" y="96" width="824" height="824" fill="url(#glow)" />
+
+    <!-- Hai dải lỗ phim gợi hình cuộn phim -->
+    <g fill="#e7e9ee" opacity="0.09">
+      <rect x="100" y="96" width="86" height="824" />
+      <rect x="838" y="96" width="86" height="824" />
+    </g>
+    <g fill="#0a0b0e" opacity="0.9">
+      <rect x="122" y="188" width="42" height="58" rx="14" />
+      <rect x="122" y="298" width="42" height="58" rx="14" />
+      <rect x="122" y="408" width="42" height="58" rx="14" />
+      <rect x="122" y="518" width="42" height="58" rx="14" />
+      <rect x="122" y="628" width="42" height="58" rx="14" />
+      <rect x="122" y="738" width="42" height="58" rx="14" />
+      <rect x="860" y="188" width="42" height="58" rx="14" />
+      <rect x="860" y="298" width="42" height="58" rx="14" />
+      <rect x="860" y="408" width="42" height="58" rx="14" />
+      <rect x="860" y="518" width="42" height="58" rx="14" />
+      <rect x="860" y="628" width="42" height="58" rx="14" />
+      <rect x="860" y="738" width="42" height="58" rx="14" />
+    </g>
+
+    <!-- Viền sáng trên mép giống bề mặt kính -->
+    <rect
+      x="112"
+      y="108"
+      width="800"
+      height="800"
+      rx="178"
+      ry="178"
+      fill="none"
+      stroke="#ffffff"
+      stroke-opacity="0.08"
+      stroke-width="4"
+    />
+  </g>
+
+  <!-- Nút phát, bo góc bằng stroke tròn -->
+  <g filter="url(#softShadow)">
+    <path
+      d="M 424 356 L 674 508 L 424 660 Z"
+      fill="url(#play)"
+      stroke="url(#play)"
+      stroke-width="72"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+    />
+  </g>
+</svg>

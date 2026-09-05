@@ -1,0 +1,116 @@
+{
+  "name": "phimdesk",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Ứng dụng xem phim desktop",
+  "author": "hoang.nguyen",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gnoah1379/phimdesk.git"
+  },
+  "homepage": "https://github.com/gnoah1379/phimdesk#readme",
+  "main": "dist-electron/main.cjs",
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build:electron": "node scripts/build-electron.mjs",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.node.json && npm run build:electron && vite build",
+    "dist": "npm run build && electron-builder",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-router-dom": "^7.9.6",
+    "video.js": "^8.24.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/node": "^22.10.2",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^6.0.2",
+    "electron": "^33.3.1",
+    "electron-builder": "^25.1.8",
+    "esbuild": "^0.28.0",
+    "tailwindcss": "^4.1.18",
+    "typescript": "~6.0.3",
+    "vite": "^8.0.16"
+  },
+  "build": {
+    "appId": "com.phimdesk.app",
+    "productName": "PhimDesk",
+    "files": [
+      "dist/**",
+      "dist-electron/**"
+    ],
+    "directories": {
+      "output": "release"
+    },
+    "mac": {
+      "icon": "build/icon.icns",
+      "category": "public.app-category.entertainment",
+      "darkModeSupport": true,
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "arm64"
+          ]
+        }
+      ]
+    },
+    "dmg": {
+      "title": "PhimDesk",
+      "contents": [
+        {
+          "x": 140,
+          "y": 200
+        },
+        {
+          "x": 400,
+          "y": 200,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    },
+    "linux": {
+      "icon": "build/icon.png",
+      "category": "AudioVideo",
+      "maintainer": "gnoah1379 <gnoah1379@users.noreply.github.com>",
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "deb",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    }
+  }
+}

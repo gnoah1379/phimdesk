@@ -1,0 +1,343 @@
+@import "tailwindcss";
+
+@theme {
+  --color-surface: #0b0c0f;
+  --color-surface-2: #14161b;
+  --color-surface-3: #1d2029;
+  --color-line: #272b36;
+  --color-brand: #e11d48;
+  --color-brand-soft: #fb7185;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-surface);
+  color: #e7e9ee;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, system-ui, sans-serif;
+  overscroll-behavior: none;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: #2c3140;
+  border-radius: 999px;
+  border: 2px solid var(--color-surface);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b4152;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Kéo cửa sổ bằng thanh tiêu đề ẩn; các control bên trong vẫn bấm được. */
+.app-drag {
+  -webkit-app-region: drag;
+}
+
+.app-drag button,
+.app-drag input,
+.app-drag a {
+  -webkit-app-region: no-drag;
+}
+
+/* ---------- Theme Video.js: thanh điều khiển nổi, kính mờ ---------- */
+.video-js {
+  --brand: #e11d48;
+  --bar-height: 3.5rem;
+  width: 100%;
+  height: 100%;
+  font-family: inherit;
+  background-color: #000;
+}
+
+/* Thanh điều khiển tách khỏi mép, bo tròn như các player hiện đại. */
+.video-js .vjs-control-bar {
+  left: 0.75rem;
+  right: 0.75rem;
+  bottom: 0.75rem;
+  width: auto;
+  height: var(--bar-height);
+  padding: 0 0.35rem;
+  align-items: center;
+  border: 1px solid rgb(255 255 255 / 0.08);
+  border-radius: 1rem;
+  background: rgb(10 11 14 / 0.55);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 14px 40px rgb(0 0 0 / 0.45);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease,
+    visibility 0.25s ease;
+}
+
+.video-js.vjs-has-started.vjs-user-inactive.vjs-playing .vjs-control-bar {
+  transform: translateY(1rem);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    visibility 0.4s ease;
+}
+
+/* Nút bấm: vùng chạm rộng, nền sáng nhẹ khi rê chuột. */
+.video-js .vjs-control-bar .vjs-button {
+  width: 2.6rem;
+  border-radius: 0.65rem;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.video-js .vjs-control-bar .vjs-button:hover,
+.video-js .vjs-control-bar .vjs-button:focus-visible {
+  background-color: rgb(255 255 255 / 0.12);
+  outline: none;
+  text-shadow: none;
+}
+
+.video-js .vjs-button > .vjs-icon-placeholder::before {
+  line-height: var(--bar-height);
+  font-size: 1.45rem;
+}
+
+.video-js .vjs-volume-panel .vjs-mute-control {
+  border-radius: 0.65rem 0.65rem 0.65rem 0.65rem;
+}
+
+/* Đồng hồ: số đều nhau, hiện cả thời gian đang phát lẫn thời gian còn lại. */
+.video-js .vjs-time-control {
+  min-width: 0;
+  padding: 0 0.4rem;
+  font-size: 0.82rem;
+  line-height: var(--bar-height);
+  font-variant-numeric: tabular-nums;
+  color: rgb(255 255 255 / 0.88);
+}
+
+.video-js .vjs-current-time {
+  display: flex;
+}
+
+.video-js .vjs-time-divider,
+.video-js .vjs-duration {
+  display: none;
+}
+
+/* Thanh tiến trình bo tròn, dày lên và hiện núm khi rê chuột. */
+.video-js .vjs-progress-control {
+  height: 100%;
+  min-width: 4rem;
+  margin: 0 0.5rem;
+  align-items: center;
+}
+
+.video-js .vjs-progress-control .vjs-progress-holder {
+  height: 0.3rem;
+  margin: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.22);
+  transition: height 0.15s ease;
+}
+
+.video-js .vjs-progress-control:hover .vjs-progress-holder {
+  height: 0.45rem;
+  font-size: 1em;
+}
+
+.video-js .vjs-load-progress,
+.video-js .vjs-load-progress div {
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.3);
+}
+
+.video-js .vjs-play-progress {
+  border-radius: 999px;
+  background-color: var(--brand);
+}
+
+.video-js .vjs-play-progress::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  right: -0.4rem;
+  width: 0.8rem;
+  height: 0.8rem;
+  margin-top: -0.4rem;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.55);
+  transform: scale(0);
+  transition: transform 0.15s ease;
+}
+
+.video-js .vjs-progress-control:hover .vjs-play-progress::before {
+  transform: scale(1);
+}
+
+.video-js .vjs-time-tooltip,
+.video-js .vjs-mouse-display .vjs-time-tooltip {
+  padding: 0.25rem 0.45rem;
+  border-radius: 0.4rem;
+  background: rgb(10 11 14 / 0.92);
+  color: #fff;
+  font-size: 0.72rem;
+  font-family: inherit;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Âm lượng. */
+.video-js .vjs-volume-bar {
+  margin: auto 0.45rem;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.25);
+}
+
+.video-js .vjs-volume-level {
+  border-radius: 999px;
+  background-color: #fff;
+}
+
+.video-js .vjs-slider-horizontal .vjs-volume-level::before {
+  font-size: 0.9em;
+  top: -0.35em;
+}
+
+/* Tốc độ phát hiển thị như một nhãn chữ. */
+.video-js .vjs-playback-rate .vjs-playback-rate-value {
+  line-height: var(--bar-height);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+/* Menu bật lên: kính mờ, bo tròn, nổi hẳn phía trên thanh điều khiển. */
+.video-js .vjs-menu-button-popup .vjs-menu {
+  width: 6rem;
+  left: -1.7rem;
+  margin-bottom: 0;
+}
+
+.video-js .vjs-menu-button-popup .vjs-menu .vjs-menu-content {
+  bottom: calc(var(--bar-height) + 0.4rem);
+  max-height: 18rem;
+  padding: 0.3rem;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  border-radius: 0.75rem;
+  background: rgb(12 13 16 / 0.9);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow: 0 14px 40px rgb(0 0 0 / 0.5);
+  overflow: hidden auto;
+}
+
+.video-js .vjs-menu-content::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+.video-js .vjs-menu li {
+  padding: 0.45rem 0.9rem;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  text-transform: none;
+}
+
+.video-js .vjs-menu li.vjs-selected {
+  background-color: var(--brand);
+  color: #fff;
+}
+
+.video-js .vjs-menu li:hover:not(.vjs-selected) {
+  background-color: rgb(255 255 255 / 0.12);
+}
+
+/* Nút phát lớn ở giữa. */
+.video-js .vjs-big-play-button {
+  width: 5rem;
+  height: 5rem;
+  line-height: 5rem;
+  border: none;
+  border-radius: 999px;
+  background-color: rgb(225 29 72 / 0.92);
+  box-shadow: 0 14px 40px rgb(0 0 0 / 0.5);
+  transition:
+    background-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.video-js:hover .vjs-big-play-button,
+.video-js .vjs-big-play-button:focus {
+  background-color: var(--brand);
+  transform: scale(1.06);
+}
+
+.video-js .vjs-loading-spinner {
+  border-color: rgb(255 255 255 / 0.15);
+  border-top-color: var(--brand);
+}
+
+/* Bong bóng phản hồi cho phím tắt (tua, âm lượng, tốc độ…). */
+.video-js .player-hint {
+  position: absolute;
+  z-index: 5;
+  top: 1.25rem;
+  left: 50%;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.1);
+  background: rgb(10 11 14 / 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -0.4rem);
+  transition:
+    opacity 0.18s ease,
+    transform 0.18s ease;
+}
+
+.video-js .player-hint.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+/* Toàn màn hình: nới thanh điều khiển ra một chút cho cân đối. */
+.video-js.vjs-fullscreen .vjs-control-bar {
+  left: 1.5rem;
+  right: 1.5rem;
+  bottom: 1.5rem;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.25s ease-out both;
+}

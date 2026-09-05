@@ -1,0 +1,97 @@
+name: Release
+
+# Chạy khi có tag dạng vX.Y.Z được đẩy lên, ví dụ:
+#   npm version patch && git push --follow-tags
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  # Đóng gói trên đúng hệ điều hành đích cho từng nền tảng — không cross-build,
+  # nên không cần Wine hay công cụ giả lập nào khác.
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            artifact: mac
+            patterns: |
+              release/*.dmg
+          - os: windows-latest
+            artifact: win
+            patterns: |
+              release/*.exe
+          - os: ubuntu-latest
+            artifact: linux
+            patterns: |
+              release/*.AppImage
+              release/*.deb
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Kiểm tra tag khớp phiên bản package.json
+        shell: bash
+        run: |
+          PKG_VERSION="v$(node -p "require('./package.json').version")"
+          TAG="${GITHUB_REF#refs/tags/}"
+          if [ "$PKG_VERSION" != "$TAG" ]; then
+            echo "::error::Tag $TAG không khớp phiên bản package.json ($PKG_VERSION). Bump version trước khi tạo tag."
+            exit 1
+          fi
+
+      - run: npm ci
+
+      - name: Build và đóng gói
+        run: npm run dist
+        env:
+          # Không có chứng chỉ ký số nào được cài trên máy CI; tắt hẳn bước tự
+          # dò tìm để electron-builder không cố tìm keychain/certificate store.
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Tải lên bản đóng gói (chưa publish)
+        uses: actions/upload-artifact@v4
+        with:
+          name: phimdesk-${{ matrix.artifact }}
+          path: ${{ matrix.patterns }}
+          if-no-files-found: error
+
+  # Gộp cả 3 nền tảng thành một GitHub Release duy nhất. Tách job riêng để
+  # không có 3 lệnh `gh release create` chạy song song tranh nhau trên cùng tag.
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Tạo checksum
+        working-directory: artifacts
+        run: |
+          ls -la
+          shasum -a 256 * > SHA256SUMS.txt
+
+      - name: Tạo GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          gh release create "$TAG" \
+            artifacts/* \
+            --title "PhimDesk $TAG" \
+            --generate-notes
