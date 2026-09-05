@@ -1,7 +1,7 @@
 {
   "name": "phimdesk",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ứng dụng xem phim desktop",
   "author": "hoang.nguyen",
   "repository": {
