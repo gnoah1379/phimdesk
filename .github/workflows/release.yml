@@ -62,14 +62,6 @@ jobs:
           echo "--- dist-electron ---"; ls -la dist-electron
           echo "--- dist ---"; ls -la dist
 
-      # Windows Defender quét real-time trên runner có thể khoá tạm file .cjs
-      # vừa ghi, khiến electron-builder đọc app.asar báo "does not exist" dù
-      # file đã tồn tại. Đây là vấn đề đã biết của windows-latest runner.
-      - name: Tắt Windows Defender real-time (chỉ trên Windows)
-        if: runner.os == 'Windows'
-        shell: powershell
-        run: Set-MpPreference -DisableRealtimeMonitoring $true
-
       - name: Đóng gói bằng electron-builder
         run: npx electron-builder
         env:
