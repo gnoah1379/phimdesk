@@ -40,6 +40,7 @@
   "build": {
     "appId": "com.phimdesk.app",
     "productName": "PhimDesk",
+    "publish": null,
     "files": [
       "dist/**",
       "dist-electron/**"

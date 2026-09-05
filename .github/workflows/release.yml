@@ -53,8 +53,25 @@ jobs:
 
       - run: npm ci
 
-      - name: Build và đóng gói
-        run: npm run dist
+      - name: Build giao diện + tiến trình main
+        run: npm run build
+
+      - name: Kiểm tra file đã build (gỡ lỗi khi thiếu)
+        shell: bash
+        run: |
+          echo "--- dist-electron ---"; ls -la dist-electron
+          echo "--- dist ---"; ls -la dist
+
+      # Windows Defender quét real-time trên runner có thể khoá tạm file .cjs
+      # vừa ghi, khiến electron-builder đọc app.asar báo "does not exist" dù
+      # file đã tồn tại. Đây là vấn đề đã biết của windows-latest runner.
+      - name: Tắt Windows Defender real-time (chỉ trên Windows)
+        if: runner.os == 'Windows'
+        shell: powershell
+        run: Set-MpPreference -DisableRealtimeMonitoring $true
+
+      - name: Đóng gói bằng electron-builder
+        run: npx electron-builder
         env:
           # Không có chứng chỉ ký số nào được cài trên máy CI; tắt hẳn bước tự
           # dò tìm để electron-builder không cố tìm keychain/certificate store.
